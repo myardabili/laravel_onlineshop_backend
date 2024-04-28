@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Product')
+@section('title', 'Orders')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -11,14 +11,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Products</h1>
-                <div class="section-header-button">
-                    <a href="{{ route('product.create') }}" class="btn btn-primary">Add New</a>
-                </div>
+                <h1>Orders</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Product</a></div>
-                    <div class="breadcrumb-item">All Product</div>
+                    <div class="breadcrumb-item"><a href="#">Order</a></div>
+                    <div class="breadcrumb-item">All Order</div>
                 </div>
             </div>
             <div class="section-body">
@@ -32,9 +29,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="float-right">
-                                    <form method="GET" action="{{ route('product.index') }}">
+                                    <form method="GET" action="{{ route('order.index') }}">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search" name="name">
+                                            <input type="text" class="form-control" placeholder="Search" name="transaction_number">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                             </div>
@@ -47,53 +44,41 @@
                                 <div class="table-responsive">
                                     <table class="table-striped table">
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Price</th>
-                                            <th>Stock</th>
-                                            {{-- <th>Image</th> --}}
-                                            <th>Description</th>
-                                            <th>Created At</th>
+                                            <th>Transaction Number</th>
+                                            <th>Transaction Date</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Shipping Name</th>
+                                            <th>Shipping Resi</th>
                                             <th>Action</th>
                                         </tr>
-                                        @foreach ($products as $product)
+                                        @foreach ($orders as $order)
                                             <tr>
                                                 <td>
-                                                    {{ $product->name }}
+                                                    {{ $order->transaction_number }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->category->name }}
+                                                    {{ $order->created_at }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->price }}
+                                                    {{ $order->total_cost }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->stock }}
+                                                    {{ $order->status }}
                                                 </td>
-                                                {{-- <td>
-                                                    {{ $product->image }}
-                                                </td> --}}
                                                 <td>
-                                                    {{ $product->description }}
+                                                    {{ $order->shipping_service }}
                                                 </td>
-                                                <td>{{ $product->created_at }}</td>
+                                                <td>
+                                                    {{ $order->shipping_resi }}
+                                                </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href='{{ route('product.edit', $product->id) }}'
+                                                        <a href='{{ route('order.edit', $order->id) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
-
-                                                        <form action="{{ route('product.destroy', $product->id) }}" method="POST"
-                                                            class="ml-2">
-                                                            <input type="hidden" name="_method" value="DELETE" />
-                                                            <input type="hidden" name="_token"
-                                                                value="{{ csrf_token() }}" />
-                                                            <button class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                <i class="fas fa-times"></i> Delete
-                                                            </button>
-                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -101,7 +86,7 @@
                                     </table>
                                 </div>
                                 <div class="float-right">
-                                    {{ $products->withQueryString()->links() }}
+                                    {{ $orders->withQueryString()->links() }}
                                 </div>
                             </div>
                         </div>
