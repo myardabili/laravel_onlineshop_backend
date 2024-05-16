@@ -63,4 +63,30 @@ class OrderController extends Controller
             'order' => $order,
         ]);
     }
+
+    public function checkPaymentStatus($id) {
+        $order = Order::find($id);
+
+        return response() -> json([
+            'status' => $order->status,
+        ]);
+    }
+
+    public function getOrderByUser(Request $request) {
+        $orders = Order::where('user_id', $request->user()->id)->get();
+
+        return response()->json([
+            'orders' => $orders,
+        ]);
+    }
+
+    public function getOrderById($id) {
+        $order = Order::with('orderItems.product')->find($id);
+
+        $order->load('user', 'address');
+
+        return response()->json([
+            'order' => $order,
+        ]);
+    }
 }
