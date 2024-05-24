@@ -23,6 +23,39 @@ class ProductController extends Controller
         ], 200);
     }
 
+    public function getProductById($id) {
+        $product = Product::find($id);
+
+        if ($product) {
+            return response()->json([
+                'message' => 'Success',
+                'data' => $product,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Product not found',
+            ], 404);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('query');
+
+        if (!$searchTerm) {
+            return response()->json([
+                'message' => 'Search term is required',
+            ], 400);
+        }
+
+        $products = Product::where('name', 'like', '%' . $searchTerm . '%')->paginate(10);
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $products,
+        ], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

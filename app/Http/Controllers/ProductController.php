@@ -33,7 +33,7 @@ class ProductController extends Controller
         $product->image = $filename;
         $product->save();
 
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('success', 'Product add successfully');
     }
 
     public function edit($id)
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = \App\Models\Product::findOrFail($id);
-        if ($request->image) {
+        if ($request->hasFile('image')) {
             $filename = time() . '' . $request->image->extension();
             $request->image->storeAs('public/products', $filename);
             $product->image = $filename;

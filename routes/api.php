@@ -42,3 +42,7 @@ Route::post('/update-fcm', [\App\Http\Controllers\Api\AuthController::class, 'up
 Route::get('/orders', [\App\Http\Controllers\Api\OrderController::class, 'getOrderByUser'])->middleware('auth:sanctum');
 
 Route::get('/order/{id}', [\App\Http\Controllers\Api\OrderController::class, 'getOrderById'])->middleware('auth:sanctum');
+
+Route::get('/product/{id}', [\App\Http\Controllers\Api\ProductController::class, 'getProductById']);
+
+Route::get('products/search', [App\Http\Controllers\Api\ProductController::class, 'search']);
